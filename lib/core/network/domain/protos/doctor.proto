@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package doctor;
+
+service DoctorService {
+  rpc CreateDoctor (CreateDoctorRequest) returns (DoctorResponse);
+  rpc GetAllDoctors (DoctorFilter) returns (DoctorListResponse);
+  rpc GetDoctorById (DoctorIdRequest) returns (DoctorResponse);
+
+  rpc GetDoctorServices (DoctorIdRequest) returns (DoctorServiceListResponse);
+  rpc AssignServiceToDoctor (AssignServiceRequest) returns (StatusResponse);
+
+  // Đổi tên hàm và message ở đây
+  rpc GlobalSearch (GlobalSearchRequest) returns (GlobalSearchResponse);
+  rpc UpdateDoctor (UpdateDoctorRequest) returns (DoctorResponse);
+  rpc DeleteDoctor (DoctorIdRequest) returns (StatusResponse);
+
+  rpc UpdateDoctorPassword (UpdatePasswordRequest) returns (StatusResponse);
+  rpc ResetDoctorPassword (DoctorIdRequest) returns (StatusResponse);
+}
+
+message UpdatePasswordRequest {
+  int32 id = 1;
+  string newPassword = 2;
+}
+
+message StatusResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DoctorIdRequest { 
+  int32 id = 1; 
+}
+
+message DoctorResponse {
+  int32 id = 1;
+  string fullName = 2;
+  string email = 3;
+  string phone = 4;
+  string position = 5;
+  string description = 6;
+  double price = 7;
+  string avatar = 8;
+  string specialtyName = 9;
+  string roomName = 10;
+  string clinicName = 11;
+  bool active = 12;
+  int32 specialtyId = 13;
+  double rating = 14;
+  int32 roomId = 15;
+}
+
+message CreateDoctorRequest {
+  string email = 1;
+  string password = 2;
+  string fullName = 3;
+  string phone = 4;
+  string position = 5;
+  string description = 6;
+  double price = 7;
+  string avatar = 8;
+  int32 specialtyId = 9;
+  int32 roomId = 10;
+}
+
+message DoctorFilter {
+  string searchTerm = 1;
+  int32 specialtyId = 2;
+  int32 roomId = 3;
+}
+
+message DoctorListResponse { 
+  repeated DoctorResponse doctors = 1; 
+}
+
+message ServiceItem {
+  int32 id = 1;
+  string name = 2;
+  double price = 3;
+  string description = 4;
+  string image = 5;
+}
+
+message DoctorServiceListResponse {
+  bool success = 1;
+  string doctorName = 2;
+  repeated ServiceItem data = 3;
+}
+
+message AssignServiceRequest {
+  int32 doctorId = 1;
+  repeated int32 serviceIds = 2;
+}
+
+// ĐỔI TÊN Ở ĐÂY CHO KHÁC VỚI MASTER DATA
+message GlobalSearchRequest {
+  string query = 1;
+  int32 limit = 2;
+}
+
+message SearchResultItem {
+  int32 id = 1;
+  string name = 2;
+  string subTitle = 3;
+  string avatar = 4;
+  string type = 5;
+}
+
+message GlobalSearchResponse {
+  bool success = 1;
+  repeated SearchResultItem results = 2;
+}
+
+message UpdateDoctorRequest {
+  int32 id = 1;
+  string fullName = 2;
+  string phone = 3;
+  string position = 4;
+  string description = 5;
+  double price = 6;
+  string avatar = 7;
+  int32 specialtyId = 8;
+  int32 roomId = 9;
+  bool active = 10;
+}

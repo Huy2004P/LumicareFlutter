@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package booking;
+
+service BookingService {
+  rpc CreateBooking (CreateBookingRequest) returns (BookingResponse);
+  rpc GetBookingHistory (GetHistoryRequest) returns (HistoryResponse);
+  rpc CancelBooking (CancelBookingRequest) returns (BookingResponse);
+  rpc DeleteBooking (DeleteBookingRequest) returns (BookingResponse);
+}
+
+message BookingResponse {
+  bool success = 1;
+  string message = 2;
+  int32 booking_id = 3;
+}
+
+message CreateBookingRequest {
+  int32 doctor_id = 1;
+  int32 patient_id = 2;       
+  int32 profile_id = 3;       
+  string date = 4;           
+  string time_type = 5;      
+  string reason = 6;       
+  repeated string photos = 7;
+  int32 service_id = 8; 
+  int32 location_id = 9; 
+  string payment_method = 10;
+}
+
+message GetHistoryRequest { int32 patient_id = 1; }
+
+message BookingItem {
+  int32 id = 1;
+  string doctor_name = 2;
+  string date = 3;
+  string time_display = 4; 
+  string status = 5;       
+  string reason = 6;       
+  string patient_name = 7;
+  string service_name = 8;
+  double price = 9;        
+  string address = 10; 
+  string cancel_reason = 11;
+  string payment_method = 12; 
+  int32 payment_status = 13;
+  int32 doctor_id = 14;   
+  int32 patient_id = 15;  
+  int32 clinic_id = 16;   
+  int32 service_id = 17;  
+}
+
+message HistoryResponse {
+  bool success = 1;
+  repeated BookingItem data = 2;
+}
+
+message CancelBookingRequest { int32 booking_id = 1; int32 patient_id = 2; string reason = 3; }
+message DeleteBookingRequest { int32 booking_id = 1; }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lumi_care/feature/booking/application/constants/route_constants.dart';
 import '../bloc/doctor_bloc.dart';
 import '../bloc/doctor_event.dart';
 import '../bloc/doctor_state.dart';
@@ -84,7 +86,11 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
             return const SizedBox.shrink();
           },
         ),
-        bottomSheet: DoctorBookingButton(onTap: () {}),
+        bottomSheet: DoctorBookingButton(
+          onTap: () {
+            context.pushNamed(BookingRoutes.bookingScreen);
+          },
+        ),
       ),
     );
   }

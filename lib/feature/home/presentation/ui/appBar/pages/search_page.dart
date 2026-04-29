@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lumi_care/core/network/domain/entities/entities.dart';
+import 'package:lumi_care/feature/doctor/application/constants/route_constants.dart';
+import 'package:lumi_care/feature/services/application/constants/route_constants.dart';
+import 'package:lumi_care/feature/specialty/application/constants/route_constants.dart';
 import '../bloc/home_search_bloc.dart';
 
 class SearchPage extends StatefulWidget {
@@ -270,7 +273,42 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              _focusNode.unfocus();
+
+              final type = item.type.toUpperCase();
+              final int targetId = int.parse(item.id.toString());
+
+              if (type == 'DOCTOR') {
+                context.pushNamed(
+                  DoctorRoutes.doctorDetailScreen,
+                  extra: targetId,
+                );
+              } else if (type == 'SPECIALTY') {
+                context.pushNamed(
+                  SpecialtyRoutes.specialtyDetailScreen,
+                  extra: targetId,
+                );
+              } else if (type == 'SERVICE') {
+                context.pushNamed(
+                  ServiceRoutes.serviceDetailScreen,
+                  extra: {
+                    'service': ServiceEntity(
+                      id: targetId,
+                      name: item.title,
+                      price: 0.0,
+                      specialtyId: 0,
+                      description: item.subtitle,
+                      image: item.image,
+                      contentHtml: '',
+                      contentMarkdown: '',
+                      rating: 0.0,
+                    ),
+                    'specialtyName': item.subtitle,
+                  },
+                );
+              }
+            },
           ),
         );
       },

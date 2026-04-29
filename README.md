@@ -1,4 +1,4 @@
-# LumiCare - Hệ thống đặt lịch khám bệnh (Ứng dụng độc lập)
+# LumiCare - Ứng dụng đặt lịch khám bệnh tại nhà
 
 LumiCare là một ứng dụng di động toàn diện hỗ trợ đặt lịch khám bệnh được xây dựng bằng Flutter. Ứng dụng cho phép người dùng tìm kiếm bác sĩ, xem thông tin phòng khám, đặt lịch hẹn khám y tế, quản lý hồ sơ bệnh nhân và nhận thông báo theo thời gian thực. Ứng dụng được thiết kế với một kiến trúc có khả năng mở rộng tốt, sử dụng gRPC để giao tiếp với backend và BLoC để quản lý trạng thái.
 

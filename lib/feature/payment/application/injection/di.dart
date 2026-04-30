@@ -37,7 +37,7 @@ class PaymentInjector {
 
     // Socket.io Configuration
     sl.registerLazySingleton<IO.Socket>(() {
-      return IO.io('http://localhost:3001', <String, dynamic>{
+      return IO.io('http://100.66.128.18:3001', <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
       });

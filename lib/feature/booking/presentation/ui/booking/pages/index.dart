@@ -830,7 +830,29 @@ class _BookingPageState extends State<BookingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-
+            Row(
+              children: [
+                Container(
+                  width: 4,
+                  height: 18,
+                  decoration: BoxDecoration(
+                    color: _skyBlue,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  "CHỌN HỒ SƠ NGƯỜI BỆNH",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                    letterSpacing: 0.8,
+                    color: _textDark,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
             // 1. CHỌN HỒ SƠ BỆNH NHÂN
             BookingPatientPicker(
               patient: _selectedPatient,

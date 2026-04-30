@@ -60,7 +60,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
       if (currentUserId == "0") return;
 
-      socket = IO.io('http://10.0.2.2:3001', <String, dynamic>{
+      socket = IO.io('http://100.66.128.18:3001', <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
       });

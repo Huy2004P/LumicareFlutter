@@ -293,102 +293,100 @@ class _BookingPageState extends State<BookingPage> {
                       padding: EdgeInsets.symmetric(vertical: 40),
                       child: CircularProgressIndicator(color: _skyBlue),
                     )
-                  else if (state is BookingScheduleLoaded)
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.4,
-                      ),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 2.2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
-                        itemCount: state.schedules.length,
-                        itemBuilder: (context, index) {
-                          final schedule = state.schedules[index];
-                          final isSelected =
-                              _selectedTime == schedule.timeDisplay;
-
-                          return InkWell(
-                            onTap: schedule.isAvailable
-                                ? () {
-                                    setState(() {
-                                      _selectedTime = schedule.timeDisplay;
-                                      _selectedTimeType = schedule.timeType;
-                                    });
-                                    Navigator.pop(context);
-                                  }
-                                : null,
-                            child: Container(
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? _skyBlue
-                                    : (schedule.isAvailable
-                                          ? const Color(0xFFF4F7F9)
-                                          : Colors.grey[100]),
-                                borderRadius: BorderRadius.circular(12),
+                  else ...[
+                    if (state is BookingScheduleLoaded)
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.4,
+                        ),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 2.2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
                               ),
-                              child: Text(
-                                schedule.timeDisplay,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12,
+                          itemCount: state.schedules.length,
+                          itemBuilder: (context, index) {
+                            final schedule = state.schedules[index];
+                            final isSelected =
+                                _selectedTime == schedule.timeDisplay;
+
+                            return InkWell(
+                              onTap: schedule.isAvailable
+                                  ? () {
+                                      setState(() {
+                                        _selectedTime = schedule.timeDisplay;
+                                        _selectedTimeType = schedule.timeType;
+                                      });
+                                      Navigator.pop(context);
+                                    }
+                                  : null,
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
                                   color: isSelected
-                                      ? Colors.white
+                                      ? _skyBlue
                                       : (schedule.isAvailable
-                                            ? _textDark
-                                            : Colors.grey[400]),
+                                            ? const Color(0xFFF4F7F9)
+                                            : Colors.grey[100]),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  schedule.timeDisplay,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : (schedule.isAvailable
+                                              ? _textDark
+                                              : Colors.grey[400]),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
+                      )
+                    else if (state is BookingScheduleEmpty)
+                      const Text(
+                        "Bác sĩ không có lịch trực sẵn vào ngày này.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF8D969E),
+                          fontSize: 13,
+                          height: 1.5,
+                        ),
                       ),
-                    )
-                  else if (state is BookingScheduleEmpty)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Bác sĩ không có lịch trực sẵn vào ngày này.",
-                          textAlign: TextAlign.center,
+
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _pickManualTimeRange,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _skyBlue,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: const Text(
+                          "TỰ CHỌN KHUNG GIỜ",
                           style: TextStyle(
-                            color: Color(0xFF8D969E),
+                            fontWeight: FontWeight.w800,
                             fontSize: 13,
-                            height: 1.5,
+                            letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 24),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: _pickManualTimeRange,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _skyBlue,
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                            ),
-                            child: const Text(
-                              "TỰ CHỌN KHUNG GIỜ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 13,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
+                  ],
                 ],
               ),
             ),

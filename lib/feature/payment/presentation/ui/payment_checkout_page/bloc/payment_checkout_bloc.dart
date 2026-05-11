@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lumi_care/feature/home/domain/use_cases/notification_usecases.dart';
 import '../../../../domain/use_cases/payment_usecases.dart';
 import '../../../../../booking/domain/use_cases/booking_usecases.dart';
 import 'payment_checkout_event.dart';
@@ -8,10 +9,12 @@ class PaymentCheckoutBloc
     extends Bloc<PaymentCheckoutEvent, PaymentCheckoutState> {
   final PaymentUsecases paymentUsecases;
   final CreateBookingUseCase createBookingUseCase;
+  final CreateNotificationUseCase createNotificationUseCase;
 
   PaymentCheckoutBloc({
     required this.paymentUsecases,
     required this.createBookingUseCase,
+    required this.createNotificationUseCase,
   }) : super(const PaymentCheckoutState()) {
     // Đăng ký event reset
     on<PaymentCheckoutReset>(
@@ -74,6 +77,18 @@ class PaymentCheckoutBloc
         );
 
         if (paymentSuccess) {
+          try {
+            await createNotificationUseCase(
+              userId: event.payload['patient_id'],
+              title: "Đặt lịch thành công! 🎉",
+              message:
+                  "Cảm ơn bạn đã đặt lịch. Chuyên gia sẽ liên hệ xác nhận sớm nhất nhé!",
+              type: "SYSTEM",
+            );
+          } catch (notiError) {
+            print("Lỗi tạo thông báo ngầm: $notiError");
+          }
+
           emit(state.copyWith(status: PaymentCheckoutStatus.success));
         } else {
           emit(

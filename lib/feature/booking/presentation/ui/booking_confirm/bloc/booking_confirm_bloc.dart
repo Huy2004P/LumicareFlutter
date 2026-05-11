@@ -36,7 +36,7 @@ class BookingConfirmBloc
             userId: event.payload['patient_id'],
             title: "Đặt lịch thành công! 🎉",
             message:
-                "Cảm ơn Huy đã đặt lịch. Chuyên gia sẽ liên hệ xác nhận sớm nhất nhé!",
+                "Cảm ơn bạn đã đặt lịch. Chuyên gia sẽ liên hệ xác nhận sớm nhất nhé!",
             type: "SYSTEM",
           );
         } catch (notiError) {

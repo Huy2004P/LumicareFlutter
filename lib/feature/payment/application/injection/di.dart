@@ -32,6 +32,7 @@ class PaymentInjector {
       () => PaymentCheckoutBloc(
         paymentUsecases: sl(),
         createBookingUseCase: sl(),
+        createNotificationUseCase: sl(),
       ),
     );
 

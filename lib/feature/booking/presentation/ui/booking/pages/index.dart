@@ -35,16 +35,10 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  // ===========================================================================
-  // CONSTANTS & COLORS (STYLE LUXURY SKY BLUE)
-  // ===========================================================================
   static const Color _skyBlue = Color(0xFF0075FF);
   static const Color _textDark = Color(0xFF191C1F);
   static const String _defaultServiceName = "Khám Trực Tiếp";
 
-  // ===========================================================================
-  // CONTROLLERS & STATE VARIABLES
-  // ===========================================================================
   final TextEditingController _reasonController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
@@ -559,30 +553,48 @@ class _BookingPageState extends State<BookingPage> {
                       letterSpacing: 0.5,
                     ),
                   ),
-                  TextButton.icon(
-                    onPressed: () {
-                      final user = GetIt.I<AuthLocalDataSource>().getUser();
-                      final userId = user?.id ?? 0;
-                      Navigator.pop(context);
-                      context.pushNamed(
-                        LocationRoutes.locationListScreen,
-                        extra: userId,
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.add_circle_outline_rounded,
-                      size: 18,
-                    ),
-                    label: const Text(
-                      "QUẢN LÝ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 12,
+                  Row(
+                    children: [
+                      // Nút refresh thêm vào đây
+                      IconButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await _fetchUserLocations();
+                          _showLocationPicker();
+                        },
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          size: 20,
+                          color: Color(0xFF0075FF),
+                        ),
+                        tooltip: "Làm mới",
                       ),
-                    ),
-                    style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF0075FF),
-                    ),
+                      TextButton.icon(
+                        onPressed: () {
+                          final user = GetIt.I<AuthLocalDataSource>().getUser();
+                          final userId = user?.id ?? 0;
+                          Navigator.pop(context);
+                          context.pushNamed(
+                            LocationRoutes.locationListScreen,
+                            extra: userId,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.add_circle_outline_rounded,
+                          size: 18,
+                        ),
+                        label: const Text(
+                          "QUẢN LÝ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 12,
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFF0075FF),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

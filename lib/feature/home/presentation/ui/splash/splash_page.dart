@@ -4,10 +4,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lumi_care/core/network/data/repositories_impl/repositories_impl.dart';
+import 'package:lumi_care/core/services/onesignal_services.dart';
 import 'package:lumi_care/feature/auth/application/constants/route_constants.dart';
 import 'package:lumi_care/feature/auth/domain/use_cases/auth_usecases.dart';
 import 'package:lumi_care/feature/home/application/constants/route_constants.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -67,7 +67,8 @@ class _SplashPageState extends State<SplashPage>
         if (isAlive) {
           final savedUserId = repo.getAutoLoginUserId();
           if (savedUserId != null && savedUserId != 0) {
-            OneSignal.login(savedUserId.toString());
+            await OneSignalService.loginUser(savedUserId.toString());
+            print("🚀 [Splash] OneSignal Auto-Linked: $savedUserId");
           }
           context.goNamed(HomeRoutes.homeScreen);
         } else {

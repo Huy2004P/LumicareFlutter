@@ -10,6 +10,7 @@ import '../widgets/login/login_header.dart';
 import '../widgets/login/login_input_field.dart';
 import '../widgets/login/login_button.dart';
 import '../widgets/login/login_footer.dart';
+import '../../../../core/services/onesignal_services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,9 +36,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == AuthStatus.authenticated) {
-          context.goNamed(HomeRoutes.homeScreen);
+          // 1. Lấy User ID từ state (đảm bảo AuthState của bạn có chứa thông tin user)
+          final userId = state.authData?.user.id.toString();
+
+          if (userId != null) {
+            // 2. Gọi OneSignal login để liên kết thiết bị với User ID này
+            await OneSignalService.loginUser(userId);
+            print("🚀 [OneSignal] Linked to User ID: $userId");
+          }
+
+          // 3. Chuyển hướng sang trang chủ
+          if (mounted) {
+            context.goNamed(HomeRoutes.homeScreen);
+          }
         } else if (state.status == AuthStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
